@@ -1,14 +1,14 @@
 import React from 'react';
 import './App.css';
-import {Hover} from "./components/Hover";
-import {CustomInput} from "./components/CustomInput";
+import {List} from "./components/List";
 
 function App() {
 
     return (
         <div className="App">
-            <CustomInput/>
-            <Hover/>
+            {/*<CustomInput/>*/}
+            {/*<Hover/>*/}
+            <List/>
         </div>
     );
 }
