@@ -1,4 +1,5 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
+import {useScroll} from "../hooks/useScroll";
 
 type ListPT = {}
 
@@ -20,31 +21,35 @@ export const List: React.FC<ListPT> = ({}, ...rest) => {
 
     const [page, setPage] = useState(1)
     const limit = 20
+    const parentRef: any = useRef()
+    const childRef: any = useRef()
+    const intersected: any = useScroll(parentRef, childRef, () => fetchTodos(page, limit));
 
-    const fetchTodos = (page: number, limit: number) => {
+
+    function fetchTodos(page: number, limit: number) {
         fetch(`https://jsonplaceholder.typicode.com/todos?_limit=${limit}&_page=${page}`)
             .then(response => response.json())
-            .then(json => setTodos(json))
+            .then(json => {
+                setTodos(prev => [...prev, ...json])
+                setPage(prev => prev + 1)
+            })
     }
-
-    useEffect(() => {
-        fetchTodos(page, limit)
-    }, [])
 
 
     return (
-        <div>
+        <div ref={parentRef} style={{height: '80vh', overflow: 'auto'}}>
             {
-                todos.map((todo) => <div key={todo.id} style={{
-                    padding: '20px',
-                    border: '2px solid white',
-                    color: 'white',
-                    backgroundColor: '#636363'
-                }}>
-                    {todo.id}. {todo.title}
-                </div>)
-            }
-
+                todos.map((todo) =>
+                    <div key={todo.id} style={{
+                        padding: '20px',
+                        border: '2px solid white',
+                        color: 'white',
+                        backgroundColor: '#636363'
+                    }}>
+                        {todo.id}. {todo.title}
+                    </div>
+                )}
+                <div ref={childRef} style={ {height: '20px', backgroundColor: 'green'} }/>
         </div>
     );
 };
