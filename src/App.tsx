@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import {SearchDebounce} from "./components/SearchDebounce";
+import {Request} from "./components/Request";
 
 function App() {
 
@@ -9,8 +9,8 @@ function App() {
             {/*<CustomInput/>*/}
             {/*<Hover/>*/}
             {/*<List/>*/}
-            <SearchDebounce/>
-
+            {/*<SearchDebounce/>*/}
+            <Request/>
         </div>
     );
 }
